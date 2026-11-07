@@ -1270,7 +1270,15 @@ window.profileTab("videos",document.querySelector(".profile-tabs button"));
 </body>
 </html>
     <script  src="./script.js"></script>
-
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("Destiny service worker ready"))
+      .catch(error => console.error(error));
+  });
+}
+</script>
   </body>
   
 </html>
