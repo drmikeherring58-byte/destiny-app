@@ -1,13 +1,29 @@
+
 {
   "background_color": "#000000",
   "dir": "ltr",
   "display": "standalone",
   "name": "Destiny",
-  "orientation": "any",
-  "scope": "/",
   "short_name": "Destiny",
-  "start_url": "/",
+  "description": "Destiny is a mobile video sharing and social networking app.",
+  "orientation": "portrait",
+  "scope": "/destiny-app/",
+  "start_url": "/destiny-app/",
+  "id": "/destiny-app/",
   "theme_color": "#080808",
-  "id": "destiny-app/",
-  "description": "Destiny is a mobile video sharing and social networking app."
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/destiny-app/192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/destiny-app/512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
 }
