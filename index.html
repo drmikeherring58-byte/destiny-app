@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080808">
+<title>Destiny</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;color:#fff;font-family:Arial,sans-serif}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+#app{height:100dvh;width:100%;max-width:600px;margin:auto;background:#080808;position:relative;overflow:hidden}
+header{height:58px;position:absolute;top:0;left:0;right:0;z-index:10;background:#080808;display:flex;align-items:center;justify-content:space-between;padding:0 15px;border-bottom:1px solid #202020}
+.logo{font-size:23px;font-weight:900;letter-spacing:1px}
+.logo span{color:#24d9ed}
+.header-btn{background:none;border:0;color:white;font-size:25px}
+.top-tabs{display:flex;gap:20px;align-items:center;justify-content:center;flex:1}
+.top-tabs button{border:0;background:none;color:#888;font-size:14px;padding:8px 0}
+.top-tabs button.active{color:#fff;font-weight:bold;border-bottom:2px solid #24d9ed}
+.page{display:none;position:absolute;inset:58px 0 66px;overflow-y:auto}
+.page.active{display:block}
+nav{height:66px;position:absolute;bottom:0;left:0;right:0;z-index:20;background:#090909;border-top:1px solid #222;display:flex;align-items:center;justify-content:space-around}
+nav button{border:0;background:none;color:#999;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;min-width:52px}
+nav button .ico{font-size:23px;line-height:24px}
+nav button.active{color:#fff}
+nav .plus{font-size:28px;background:linear-gradient(90deg,#22d9ed,#fa315b);color:#fff;width:42px;height:30px;border-radius:8px;line-height:28px}
+.feed{height:100%;overflow-y:auto;scroll-snap-type:y mandatory}
+.video-card{height:100%;min-height:500px;position:relative;scroll-snap-align:start;background:#171717;overflow:hidden}
+.video-card video{height:100%;width:100%;object-fit:cover}
+.shade{position:absolute;inset:0;background:linear-gradient(transparent 48%,#000b 100%);pointer-events:none}
+.video-info{position:absolute;bottom:20px;left:14px;right:85px;z-index:2;text-shadow:0 1px 3px #000}
+.video-info h3{font-size:15px;margin-bottom:8px}
+.video-info p{font-size:13px;line-height:1.4;margin-bottom:7px;overflow-wrap:anywhere}
+.video-actions{position:absolute;right:12px;bottom:22px;display:flex;flex-direction:column;align-items:center;gap:17px;z-index:3}
+.video-actions button{border:0;background:none;color:white;display:flex;flex-direction:column;align-items:center;font-size:27px;text-shadow:0 1px 4px #000}
+.video-actions small{font-size:10px;margin-top:3px}
+.video-actions .liked{color:#ff3155}
+.avatar{width:42px;height:42px;border-radius:50%;background:#24d9ed;color:#000;display:grid;place-items:center;font-weight:bold;font-size:20px;border:2px solid white;flex-shrink:0}
+.screen-title{font-size:21px;font-weight:bold;padding:18px 16px}
+.search-wrap{padding:12px 15px}
+.search-box{width:100%;border:0;border-radius:9px;background:#242424;color:white;padding:14px;font-size:15px;outline:none}
+.section-label{padding:16px;font-size:16px;font-weight:bold}
+.result-row,.message-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #222}
+.result-row p,.message-row p{color:#999;font-size:12px;margin-top:4px}
+.result-row button,.follow-btn{margin-left:auto;border:0;background:#24d9ed;color:#000;padding:8px 14px;border-radius:5px;font-weight:bold}
+.explore-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;padding:3px}
+.explore-tile{height:210px;background:#222;position:relative;overflow:hidden}
+.explore-tile video{width:100%;height:100%;object-fit:cover}
+.tile-caption{position:absolute;bottom:8px;left:8px;font-size:12px;text-shadow:0 1px 3px #000}
+.profile-head{padding:22px 16px;text-align:center}
+.profile-pic{width:90px;height:90px;margin:0 auto 12px;border-radius:50%;background:linear-gradient(135deg,#24d9ed,#fa315b);display:grid;place-items:center;font-size:38px;font-weight:bold}
+.profile-head h2{font-size:20px;margin-bottom:5px}
+.muted{color:#999;font-size:13px}
+.stats{display:flex;justify-content:center;gap:28px;margin:22px 0}
+.stats strong{display:block;font-size:18px}
+.stats span{color:#999;font-size:12px}
+.profile-buttons{display:flex;justify-content:center;gap:10px;margin-bottom:20px}
+.profile-buttons button,.primary-btn{background:#252525;color:white;border:0;padding:10px 20px;border-radius:5px}
+.profile-bio{font-size:13px;line-height:1.5;padding:0 25px 18px}
+.profile-tabs,.inbox-tabs{display:flex;border-top:1px solid #292929;border-bottom:1px solid #292929}
+.profile-tabs button,.inbox-tabs button{flex:1;background:none;border:0;color:#999;padding:14px}
+.profile-tabs button.active,.inbox-tabs button.active{color:#24d9ed;border-bottom:2px solid #24d9ed}
+.empty-state{text-align:center;padding:65px 25px;color:#999}
+.empty-state .big{font-size:45px;margin-bottom:12px}
+.flower-welcome{padding:55px 22px;text-align:center;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#201326 0%,#080808 70%)}
+.flower-welcome .flowers{font-size:34px;letter-spacing:8px;margin-bottom:22px}
+.flower-welcome h2{font-size:25px;line-height:1.35;color:#fff;margin-bottom:15px}
+.flower-welcome p{color:#bbb;font-size:14px;line-height:1.6;max-width:300px}
+.flower-welcome button{margin-top:25px}
+.modal-bg{display:none;position:absolute;inset:0;background:#000e;z-index:50;align-items:center;justify-content:center;padding:18px}
+.modal-bg.show{display:flex}
+.modal{background:#191919;width:100%;max-width:420px;border-radius:14px;padding:20px;max-height:90%;overflow:auto;position:relative}
+.modal h3{margin-bottom:16px}
+.modal input,.modal textarea{width:100%;background:#292929;color:white;border:1px solid #444;padding:12px;border-radius:7px;margin:7px 0 14px;outline:none}
+.modal textarea{min-height:80px;resize:vertical}
+.modal label{font-size:13px;color:#ccc}
+.modal .primary-btn{width:100%;background:#24d9ed;color:#000;font-weight:bold;margin-top:8px}
+.close-btn{float:right;background:none;border:0;color:#fff;font-size:24px}
+.comment-line{padding:12px 0;border-bottom:1px solid #333;font-size:13px}
+#toast{position:absolute;z-index:90;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:12px 18px;border-radius:20px;font-size:13px;display:none;max-width:90%;text-align:center}
+.auth-status{text-align:center;padding:8px;color:#24d9ed;font-size:12px}
+.request-actions{margin-left:auto;display:flex;gap:6px}
+.request-actions button{border:0;padding:8px 10px;border-radius:5px;font-size:12px;font-weight:bold}
+.accept-btn{background:#24d9ed;color:#000}
+.reject-btn{background:#333;color:#fff}
+.chat-box{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;overflow-y:auto;padding:12px 3px}
+.chat-bubble{max-width:82%;padding:10px 12px;border-radius:12px;background:#303030;overflow-wrap:anywhere;font-size:14px}
+.chat-bubble.mine{align-self:flex-end;background:#24d9ed;color:#000}
+.chat-bubble small{display:block;font-size:10px;opacity:.7;margin-bottom:4px}
+.chat-bubble img{display:block;max-width:100%;max-height:280px;border-radius:9px;margin-top:5px}
+.chat-bubble video{display:block;width:100%;max-height:300px;border-radius:9px;margin-top:5px;background:#000}
+.chat-compose{display:flex;gap:6px;margin-top:10px;align-items:center;flex-shrink:0}
+.chat-compose input{flex:1;min-width:0;margin:0}
+.chat-compose button{border:0;border-radius:7px;background:#24d9ed;color:#000;padding:12px 11px;font-weight:bold}
+.chat-compose .attach{background:#333;color:#fff;padding:12px 10px;font-size:17px}
+.chat-header{display:flex;align-items:center;gap:10px;padding:4px 0 12px;border-bottom:1px solid #333;flex-shrink:0}
+.chat-header .chat-person{display:flex;align-items:center;gap:10px;flex:1;min-width:0;background:none;border:0;color:white;text-align:left}
+.chat-header .chat-person strong{display:block}
+.chat-header .chat-person small{display:block;color:#999;margin-top:3px}
+.chat-header .back-chat{background:none;border:0;color:white;font-size:24px}
+.chat-modal-bg{padding:0!important}
+.chat-modal-bg .modal{width:100%;height:100%;max-width:600px;max-height:100%;border-radius:0;padding:12px;display:flex;flex-direction:column;overflow:hidden}
+.chat-modal-bg .modal>.close-btn{display:none}
+
+/* FULL-SCREEN VOICE AND VIDEO CALL DESIGN */
+.call-modal-bg{padding:0!important;background:#050505f5}
+.call-modal-bg .modal{width:100%;height:100%;max-width:600px;max-height:100%;border-radius:0;padding:0;overflow:hidden;background:#050505;display:flex;flex-direction:column;justify-content:center}
+.call-modal-bg .modal>.close-btn{display:none}
+.call-screen{height:100%;width:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;background:radial-gradient(circle at center,#20252b,#050505 70%)}
+.call-screen h3{font-size:20px;margin-bottom:15px}
+.call-screen .call-status{padding:14px;color:#24d9ed;font-size:14px}
+.call-screen .call-avatar{width:115px;height:115px;border-radius:50%;background:linear-gradient(135deg,#24d9ed,#fa315b);display:grid;place-items:center;font-size:48px;font-weight:bold;margin:25px auto}
+.call-screen .call-videos{position:absolute;inset:0;background:#000}
+.call-screen #remote-video{width:100%;height:100%;object-fit:cover;background:#050505;border-radius:0;max-height:none}
+.call-screen #local-video{position:absolute;right:15px;top:65px;width:105px;height:145px;object-fit:cover;border:2px solid white;border-radius:12px;background:#222;z-index:3}
+.call-screen .call-top{position:absolute;top:20px;left:0;right:0;z-index:5;text-shadow:0 2px 5px #000}
+.call-screen .call-status{position:absolute;bottom:120px;left:0;right:0;z-index:5;text-shadow:0 2px 5px #000}
+.call-controls{position:absolute;bottom:35px;left:0;right:0;display:flex;justify-content:center;gap:18px;z-index:6}
+.call-controls button{border:0;border-radius:50%;width:58px;height:58px;background:#333;color:white;font-size:22px}
+.call-controls .end-call{background:#f13d52}
+.call-controls .enabled{background:#24d9ed;color:#000}
+.call-screen.voice-screen .call-status{position:static}
+.call-screen.voice-screen .call-controls{position:static;margin-top:35px}
+.call-screen.voice-screen{background:radial-gradient(circle at center,#24242c,#050505 70%)}
+.call-screen .call-subtitle{color:#aaa;font-size:13px}
+.public-profile{overflow-y:auto;text-align:center}
+.public-profile .profile-pic{margin-top:15px}
+.public-posts{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:15px}
+.public-posts video{width:100%;height:180px;object-fit:cover;background:#222}
+@media(min-width:601px){#app{border-left:1px solid #222;border-right:1px solid #222}}
+</style>
+</head>
+<body>
+<div id="app">
+<header>
+ <div class="logo">DESTINY<span>.</span></div>
+ <div id="header-tabs" class="top-tabs">
+  <button onclick="feedMode('following',this)">Friends</button>
+  <button class="active" onclick="feedMode('foryou',this)">For You</button>
+ </div>
+ <button class="header-btn" onclick="openPage('search')">⌕</button>
+</header>
+
+<section id="home" class="page active">
+ <div class="feed" id="video-feed">
+  <div class="flower-welcome">
+   <div class="flowers">🌸 🌺 🌼</div>
+   <h2>Welcome to Ikechukwu Destiny Platform</h2>
+   <p>Share your moments, meet new friends and enjoy videos from Destiny creators.</p>
+   <button class="primary-btn" onclick="showAuth()">Create account</button>
+   <div class="flowers" style="margin-top:28px">🌷 ✿ 🌻</div>
+  </div>
+ </div>
+</section>
+
+<section id="search" class="page">
+ <h2 class="screen-title">Search</h2>
+ <div class="search-wrap"><input class="search-box" id="search-input" placeholder="Search creators..." oninput="searchUsers()"></div>
+ <div id="search-results"><div class="empty-state">Search for Destiny creators.</div></div>
+</section>
+
+<section id="discover" class="page">
+ <h2 class="screen-title">Discover</h2>
+ <div class="search-wrap"><input class="search-box" placeholder="Search creators..." onclick="openPage('search')"></div>
+ <div class="section-label">Discover videos</div>
+ <div id="discover-feed" class="explore-grid"></div>
+</section>
+
+<section id="inbox" class="page">
+ <h2 class="screen-title">Inbox</h2>
+ <div class="inbox-tabs">
+  <button class="active" onclick="inboxTab('activity',this)">Activity</button>
+  <button onclick="inboxTab('requests',this)">Friend requests</button>
+  <button onclick="inboxTab('messages',this)">Messages</button>
+ </div>
+ <div id="inbox-content"><div class="empty-state"><div class="big">✉</div><b>Your Destiny inbox</b><p>Your requests and messages will appear here.</p></div></div>
+</section>
+
+<section id="profile" class="page">
+ <div class="profile-head">
+  <div class="profile-pic" id="profile-avatar">D</div>
+  <h2 id="profile-name">Destiny User</h2>
+  <p class="muted" id="profile-handle">@destiny_user</p>
+  <div class="stats">
+   <div><strong id="post-count">0</strong><span>Posts</span></div>
+   <div><strong id="follower-count">0</strong><span>Followers</span></div>
+   <div><strong id="following-count">0</strong><span>Friends</span></div>
+   <div><strong id="like-count">0</strong><span>Likes</span></div>
+  </div>
+  <div class="profile-buttons"><button onclick="editProfile()">Edit profile</button><button onclick="shareVideo()">Share profile</button></div>
+  <p class="profile-bio" id="profile-bio">Welcome to my Destiny profile ✨</p>
+  <p class="auth-status" id="auth-status">You are browsing as a guest.</p>
+  <button class="primary-btn" id="auth-button" onclick="showAuth()">Sign up / Log in</button>
+  <button class="primary-btn" id="logout-button" style="display:none" onclick="logout()">Log out</button>
+ </div>
+ <div class="profile-tabs"><button class="active" onclick="profileTab('videos',this)">▦ Videos</button><button onclick="profileTab('liked',this)">♥ Liked</button></div>
+ <div id="profile-content" class="empty-state"><div class="big">▣</div><b>Your videos will appear here</b><p>Sign in and upload your first video.</p></div>
+</section>
+
+<nav>
+ <button class="active" data-page="home" onclick="openPage('home')"><span class="ico">⌂</span>Home</button>
+ <button data-page="discover" onclick="openPage('discover')"><span class="ico">⌕</span>Discover</button>
+ <button onclick="askCaption()"><span class="plus">＋</span></button>
+ <button data-page="inbox" onclick="openPage('inbox')"><span class="ico">✉</span>Inbox</button>
+ <button data-page="profile" onclick="openPage('profile')"><span class="ico">♙</span>Profile</button>
+</nav>
+
+<input id="upload-file" type="file" accept="video/*" hidden onchange="uploadVideo(event)">
+<input id="chat-image-file" type="file" accept="image/*" hidden onchange="uploadChatAttachment(event,'image')">
+<input id="chat-video-file" type="file" accept="video/*" hidden onchange="uploadChatAttachment(event,'video')">
+
+<div class="modal-bg" id="modal-bg" onclick="if(event.target===this)closeModal()">
+ <div class="modal"><button class="close-btn" onclick="closeModal()">×</button><div id="modal-content"></div></div>
+</div>
+<div id="toast"></div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+ getAuth,onAuthStateChanged,createUserWithEmailAndPassword,
+ signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup,signOut,
+ updateProfile as updateAuthProfile
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+ getFirestore,collection,addDoc,doc,setDoc,deleteDoc,getDoc,
+ onSnapshot,query,orderBy,serverTimestamp,getDocs,writeBatch,where
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+ getDatabase,ref as dbRef,set as dbSet,update as dbUpdate,
+ push as dbPush,get as dbGet,onValue,onChildAdded,remove as dbRemove
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyDBUSihaJ-0sIxgsNc4GXLD7pV8qgmZmrI",
+ authDomain:"ikechukwu-destiny-tiktok.firebaseapp.com",
+ projectId:"ikechukwu-destiny-tiktok",
+ storageBucket:"ikechukwu-destiny-tiktok.firebasestorage.app",
+ messagingSenderId:"224211189951",
+ appId:"1:224211189951:web:c719ff00fa189cae47c60a",
+ measurementId:"G-J8NNS5XG78"
+};
+const CLOUD_NAME="t7nst2zp";
+const UPLOAD_PRESET="destiny_upload";
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const rtdb=getDatabase(app,"https://ikechukwu-destiny-tiktok-default-rtdb.europe-west1.firebasedatabase.app");
+
+let currentUser=null,posts=[],myProfile={username:"",bio:""};
+let stopPosts=null,stopChat=null,stopIncoming=null,stopCall=null;
+let myLiked=new Set(),following=new Set();
+let activeCall=null,peer=null,localStream=null,remoteStream=null;
+let remoteCandidateListener=null,pendingCandidates=[];
+let activeChatUid=null,activeChatName="",activeChatId="";
+let returnToChat=null;
+const $=id=>document.getElementById(id);
+const safe=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rtcConfig={iceServers:[
+ {urls:"stun:stun.l.google.com:19302"},
+ {urls:"stun:stun1.l.google.com:19302"}
+]};
+
+window.toast=function(message){
+ const el=$("toast");el.textContent=message;el.style.display="block";
+ clearTimeout(window.toastTimer);
+ window.toastTimer=setTimeout(()=>el.style.display="none",2800);
+};
+
+window.openPage=function(page){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ $(page).classList.add("active");
+ document.querySelectorAll("nav button[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ $("header-tabs").style.display=page==="home"?"flex":"none";
+ document.querySelectorAll("#video-feed video").forEach(v=>page==="home"?v.play().catch(()=>{}):v.pause());
+};
+
+window.feedMode=function(mode,button){
+ document.querySelectorAll(".top-tabs button").forEach(b=>b.classList.remove("active"));
+ button.classList.add("active");
+ renderFeed(mode);
+};
+
+window.closeModal=()=>{
+ $("modal-bg").classList.remove("show","chat-modal-bg","call-modal-bg");
+ if(stopChat){stopChat();stopChat=null}
+};
+
+function showModal(html){
+ if(stopChat){stopChat();stopChat=null}
+ $("modal-bg").classList.remove("chat-modal-bg","call-modal-bg");
+ $("modal-content").innerHTML=html;
+ $("modal-bg").classList.add("show");
+}
+
+function showChatModal(html){
+ if(stopChat){stopChat();stopChat=null}
+ $("modal-bg").classList.remove("call-modal-bg");
+ $("modal-bg").classList.add("chat-modal-bg");
+ $("modal-content").innerHTML=html;
+ $("modal-bg").classList.add("show");
+}
+
+function showCallModal(html){
+ if(stopChat){stopChat();stopChat=null}
+ $("modal-bg").classList.remove("chat-modal-bg");
+ $("modal-bg").classList.add("call-modal-bg");
+ $("modal-content").innerHTML=html;
+ $("modal-bg").classList.add("show");
+}
+
+window.showAuth=function(){
+ showModal(`<h3>Welcome to Destiny</h3>
+ <label>Email address</label><input id="auth-email" type="email" placeholder="Enter your email">
+ <label>Password</label><input id="auth-password" type="password" placeholder="At least 6 characters">
+ <label>Username (for new accounts)</label><input id="auth-username" placeholder="Choose a username">
+ <button class="primary-btn" onclick="registerEmail()">Create account</button>
+ <button class="primary-btn" onclick="loginEmail()" style="background:#333;color:white">Log in</button>
+ <button class="primary-btn" onclick="googleLogin()" style="background:white;color:#111">Continue with Google</button>`);
+};
+
+window.registerEmail=async()=>{
+ const email=$("auth-email").value.trim();
+ const pass=$("auth-password").value;
+ const username=$("auth-username").value.trim().replace(/^@/,"");
+ if(!email||!pass||!username){toast("Enter your email, password and username.");return}
+ if(pass.length<6){toast("Password must have at least 6 characters.");return}
+ try{
+  const result=await createUserWithEmailAndPassword(auth,email,pass);
+  await updateAuthProfile(result.user,{displayName:username});
+  await saveUserProfile(username);
+  closeModal();toast("Your Destiny account is ready!");
+ }catch(e){toast(authError(e))}
+};
+
+window.loginEmail=async()=>{
+ const email=$("auth-email").value.trim(),pass=$("auth-password").value;
+ if(!email||!pass){toast("Enter your email and password.");return}
+ try{
+  await signInWithEmailAndPassword(auth,email,pass);
+  closeModal();toast("You are logged in!");
+ }catch(e){toast(authError(e))}
+};
+
+window.googleLogin=async()=>{
+ try{
+  await signInWithPopup(auth,new GoogleAuthProvider());
+  closeModal();toast("Google login successful!");
+ }catch(e){toast(authError(e))}
+};
+
+function authError(e){
+ const map={
+  "auth/email-already-in-use":"This email already has an account. Log in instead.",
+  "auth/invalid-email":"That email address is not valid.",
+  "auth/weak-password":"Choose a stronger password.",
+  "auth/invalid-credential":"Email or password is incorrect.",
+  "auth/popup-blocked":"The browser blocked the Google sign-in window.",
+  "auth/unauthorized-domain":"Add the CodePen domain in Firebase Authentication settings."
+ };
+ return map[e.code]||e.message||"Something went wrong.";
+}
+
+async function saveUserProfile(username){
+ if(!auth.currentUser)return;
+ const uid=auth.currentUser.uid;
+ const clean=(username||auth.currentUser.displayName||"DestinyUser").replace(/^@/,"");
+ myProfile.username=clean;
+ await setDoc(doc(db,"publicUsers",uid),{
+  uid,username:clean,createdAt:serverTimestamp(),updatedAt:serverTimestamp()
+ },{merge:true});
+ await setDoc(doc(db,"users",uid),{
+  uid,email:auth.currentUser.email||"",username:clean,updatedAt:serverTimestamp()
+ },{merge:true});
+}
+
+onAuthStateChanged(auth,async user=>{
+ currentUser=user;
+ if(stopIncoming){stopIncoming();stopIncoming=null}
+ if(user){
+  try{
+   const snap=await getDoc(doc(db,"publicUsers",user.uid));
+   if(snap.exists())myProfile={...snap.data()};
+   else await saveUserProfile(user.displayName||"DestinyUser");
+   $("profile-name").textContent=user.displayName||myProfile.username||"Destiny User";
+   $("profile-handle").textContent="@"+(myProfile.username||"user");
+   $("profile-avatar").textContent=(myProfile.username||"D").charAt(0).toUpperCase();
+   $("profile-bio").textContent=myProfile.bio||"Welcome to my Destiny profile ✨";
+   $("auth-status").textContent=user.email||"Signed in with Google";
+   $("auth-button").style.display="none";
+   $("logout-button").style.display="inline-block";
+   await loadMyLikes();
+   await loadFollowing();
+   listenForIncomingCalls();
+  }catch(e){toast("Account loading problem: "+e.message)}
+ }else{
+  myProfile={username:"",bio:""};
+  $("profile-name").textContent="Destiny User";
+  $("profile-handle").textContent="@destiny_user";
+  $("auth-status").textContent="You are browsing as a guest";
+  $("auth-button").style.display="inline-block";
+  $("logout-button").style.display="none";
+  myLiked.clear();following.clear();renderFeed();
+ }
+});
+
+window.logout=async()=>{
+ if(activeCall)await endCall(false);
+ try{await signOut(auth);toast("Logged out");openPage("home")}
+ catch(e){toast(e.message)}
+};
+
+function startPosts(){
+ if(stopPosts)stopPosts();
+ const q=query(collection(db,"posts"),orderBy("createdAt","desc"));
+ stopPosts=onSnapshot(q,snap=>{
+  posts=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderFeed();renderDiscover();renderMyVideos();
+ },err=>toast("Could not load videos: "+err.message));
+}
+startPosts();
+
+function renderFeed(mode="foryou"){
+ const feed=$("video-feed");
+ let list=posts;
+ if(mode==="following"&&currentUser)list=posts.filter(p=>following.has(p.uid));
+ if(!list.length){
+  feed.innerHTML=`<div class="flower-welcome">
+   <div class="flowers">🌸 🌺 🌼</div>
+   <h2>Welcome to Ikechukwu Destiny Platform</h2>
+   <p>${mode==="following"?"Add friends to see their videos here.":"Share your moments, meet new friends and enjoy videos from Destiny creators."}</p>
+   <button class="primary-btn" onclick="chooseUpload()">Upload a video</button>
+   <div class="flowers" style="margin-top:28px">🌷 ✿ 🌻</div>
+  </div>`;
+  return;
+ }
+ feed.innerHTML=list.map(videoCardHTML).join("");
+ feed.querySelectorAll("video").forEach(v=>{v.muted=true;v.play().catch(()=>{})});
+}
+
+function videoCardHTML(p){
+ const liked=myLiked.has(p.id);
+ return `<article class="video-card" data-id="${safe(p.id)}">
+ <video src="${safe(p.videoUrl)}" loop muted playsinline controls></video>
+ <div class="shade"></div>
+ <div class="video-info">
+  <h3>@${safe(p.username||"creator")}</h3>
+  <p>${safe(p.caption||"")}</p>
+  <p>♫ Original sound - Destiny</p>
+ </div>
+ <div class="video-actions">
+  <div class="avatar" onclick="openPublicProfile('${safe(p.uid)}')">${safe((p.username||"D").charAt(0).toUpperCase())}</div>
+  <button class="${liked?"liked":""}" onclick="toggleLike('${safe(p.id)}')">♥<small>Like</small></button>
+  <button onclick="openComments('${safe(p.id)}')">●<small>Comment</small></button>
+  <button onclick="shareVideo('${safe(p.id)}')">➤<small>Share</small></button>
+  ${currentUser&&currentUser.uid!==p.uid?`<button onclick="followUser('${safe(p.uid)}')">＋<small>${following.has(p.uid)?"Message":"Add friend"}</small></button>`:""}
+ </div>
+ </article>`;
+}
+
+window.chooseUpload=()=>{
+ if(!currentUser){toast("Please create an account or log in first.");showAuth();return}
+ $("upload-file").click();
+};
+
+window.askCaption=()=>{
+ if(!currentUser){toast("Please create an account or log in first.");showAuth();return}
+ showModal(`<h3>Upload a video</h3>
+ <label>Write a caption</label>
+ <textarea id="video-caption" placeholder="What is your video about?"></textarea>
+ <button class="primary-btn" onclick="startSelectedUpload()">Choose video</button>`);
+};
+
+window.startSelectedUpload=()=>{
+ window.pendingCaption=$("video-caption").value.trim();
+ closeModal();$("upload-file").click();
+};
+
+window.uploadVideo=async event=>{
+ const file=event.target.files[0];if(!file)return;
+ if(!currentUser){toast("Please log in first.");return}
+ if(!file.type.startsWith("video/")){toast("Choose a video file.");return}
+ if(file.size>100*1024*1024){toast("This video is bigger than 100 MB.");return}
+ showModal(`<h3>Uploading video</h3><p id="upload-status" class="muted">Please wait. Keep this page open.</p>`);
+ try{
+  const form=new FormData();
+  form.append("file",file);form.append("upload_preset",UPLOAD_PRESET);
+  const response=await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/video/upload`,{method:"POST",body:form});
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.error?.message||"Video upload failed.");
+  await addDoc(collection(db,"posts"),{
+   uid:currentUser.uid,
+   username:myProfile.username||currentUser.displayName||"DestinyUser",
+   caption:window.pendingCaption||"",
+   videoUrl:data.secure_url,
+   likeCount:0,
+   createdAt:serverTimestamp()
+  });
+  window.pendingCaption="";
+  closeModal();toast("Your video is now posted on Destiny!");openPage("home");
+ }catch(e){
+  const s=$("upload-status");if(s)s.textContent=e.message;
+  toast(e.message);
+ }
+ event.target.value="";
+};
+
+window.toggleLike=async postId=>{
+ if(!currentUser){showAuth();toast("Log in to like videos.");return}
+ const r=doc(db,"posts",postId,"likes",currentUser.uid);
+ try{
+  if(myLiked.has(postId)){await deleteDoc(r);myLiked.delete(postId)}
+  else{await setDoc(r,{uid:currentUser.uid,createdAt:serverTimestamp()});myLiked.add(postId)}
+  renderFeed();
+ }catch(e){toast(e.message)}
+};
+
+async function loadMyLikes(){
+ myLiked.clear();if(!currentUser)return;
+ try{
+  for(const p of posts){
+   const s=await getDoc(doc(db,"posts",p.id,"likes",currentUser.uid));
+   if(s.exists())myLiked.add(p.id);
+  }
+ }catch(e){}
+ renderFeed();
+}
+
+window.openComments=async postId=>{
+ if(!currentUser){showAuth();toast("Log in to comment.");return}
+ showModal(`<h3>Comments</h3>
+ <div id="comments-list">Loading comments...</div>
+ <textarea id="new-comment" placeholder="Write a comment..."></textarea>
+ <button class="primary-btn" onclick="sendComment('${safe(postId)}')">Post comment</button>`);
+ const q=query(collection(db,"posts",postId,"comments"),orderBy("createdAt","asc"));
+ onSnapshot(q,snap=>{
+  const box=$("comments-list");if(!box)return;
+  box.innerHTML=snap.empty?`<p class="muted">No comments yet. Be the first!</p>`:
+   snap.docs.map(d=>`<div class="comment-line"><b>@${safe(d.data().username)}</b><br>${safe(d.data().text)}</div>`).join("");
+ });
+};
+
+window.sendComment=async postId=>{
+ const text=$("new-comment").value.trim();if(!text)return;
+ try{
+  await addDoc(collection(db,"posts",postId,"comments"),{
+   uid:currentUser.uid,
+   username:myProfile.username||currentUser.displayName||"user",
+   text,createdAt:serverTimestamp()
+  });
+  $("new-comment").value="";toast("Comment posted!");
+ }catch(e){toast(e.message)}
+};
+
+window.shareVideo=async postId=>{
+ const url=postId?location.href.split("#")[0]+"#video-"+postId:location.href;
+ try{
+  if(navigator.share)await navigator.share({title:"Destiny",text:"Watch this on Destiny!",url});
+  else{await navigator.clipboard.writeText(url);toast("Link copied!")}
+ }catch(e){toast("Sharing cancelled.")}
+};
+
+/* FRIEND REQUESTS */
+async function getFriendStatus(uid){
+ if(!currentUser)return "none";
+ const f=await getDoc(doc(db,"users",currentUser.uid,"friends",uid));
+ if(f.exists())return "friend";
+ const incoming=await getDoc(doc(db,"friendRequests",`${currentUser.uid}_${uid}`));
+ if(incoming.exists()&&incoming.data().status==="pending")return "incoming";
+ const outgoing=await getDoc(doc(db,"friendRequests",`${uid}_${currentUser.uid}`));
+ if(outgoing.exists()&&outgoing.data().status==="pending")return "outgoing";
+ return "none";
+}
+
+window.friendAction=async uid=>{
+ if(!currentUser){showAuth();toast("Log in first.");return}
+ if(uid===currentUser.uid)return;
+ try{
+  const status=await getFriendStatus(uid);
+  if(status==="friend"){
+   const s=await getDoc(doc(db,"publicUsers",uid));
+   await openChat(uid,s.data()?.username||"Destiny friend");return;
+  }
+  if(status==="incoming"){await acceptFriendRequest(uid);return}
+  if(status==="outgoing"){toast("Your friend request is waiting for acceptance.");return}
+  const target=await getDoc(doc(db,"publicUsers",uid));
+  if(!target.exists()){toast("Account not found.");return}
+  await setDoc(doc(db,"friendRequests",`${uid}_${currentUser.uid}`),{
+   fromUid:currentUser.uid,toUid:uid,
+   fromUsername:myProfile.username||currentUser.displayName||"Destiny user",
+   toUsername:target.data().username||"Destiny user",
+   status:"pending",createdAt:serverTimestamp()
+  });
+  toast("Friend request sent!");searchUsers();
+ }catch(e){toast("Friend request failed: "+e.message)}
+};
+
+window.followUser=uid=>friendAction(uid);
+
+async function loadFollowing(){
+ following.clear();if(!currentUser)return;
+ try{
+  const s=await getDocs(collection(db,"users",currentUser.uid,"friends"));
+  s.forEach(d=>following.add(d.id));
+ }catch(e){}
+ renderFeed();
+}
+
+window.searchUsers=async()=>{
+ const input=$("search-input").value.trim().replace(/^@/,"").toLowerCase();
+ const box=$("search-results");
+ if(!input){box.innerHTML=`<div class="empty-state">Search for Destiny creators.</div>`;return}
+ box.innerHTML=`<div class="empty-state">Searching...</div>`;
+ try{
+  const snap=await getDocs(collection(db,"publicUsers"));
+  const matches=snap.docs.map(d=>({...d.data(),uid:d.data().uid||d.id}))
+   .filter(u=>String(u.username||"").toLowerCase().includes(input))
+   .filter(u=>u.uid!==currentUser?.uid);
+  if(!matches.length){box.innerHTML=`<div class="empty-state">No creators found.</div>`;return}
+  const rows=await Promise.all(matches.map(async u=>{
+   const st=currentUser?await getFriendStatus(u.uid):"none";
+   const label=st==="incoming"?"Accept":st==="outgoing"?"Requested":st==="friend"?"Message":"Add friend";
+   return `<div class="result-row" onclick="openPublicProfile('${safe(u.uid)}')">
+    <div class="avatar">${safe((u.username||"D").charAt(0).toUpperCase())}</div>
+    <div><b>@${safe(u.username||"user")}</b><p>Destiny creator</p></div>
+    <button onclick="event.stopPropagation();friendAction('${safe(u.uid)}')">${label}</button>
+   </div>`;
+  }));
+  box.innerHTML=rows.join("");
+ }catch(e){box.innerHTML=`<div class="empty-state">Search failed: ${safe(e.message)}</div>`}
+};
+
+/* INBOX */
+window.inboxTab=async(tab,button)=>{
+ document.querySelectorAll(".inbox-tabs button").forEach(b=>b.classList.remove("active"));
+ button.classList.add("active");
+ const box=$("inbox-content");
+ if(!currentUser){box.innerHTML=`<div class="empty-state">Please log in to use your inbox.</div>`;return}
+ if(tab==="activity")box.innerHTML=`<div class="empty-state"><div class="big">✦</div><b>Destiny activity</b><p>Your account activity will appear here.</p></div>`;
+ if(tab==="requests")await loadFriendRequests();
+ if(tab==="messages")await loadFriendsMessages();
+};
+
+window.loadFriendRequests=async()=>{
+ const box=$("inbox-content");
+ box.innerHTML=`<div class="empty-state">Loading friend requests...</div>`;
+ try{
+  const q=query(collection(db,"friendRequests"),where("toUid","==",currentUser.uid));
+  const snap=await getDocs(q);
+  const requests=snap.docs.filter(d=>d.data().status==="pending");
+  if(!requests.length){box.innerHTML=`<div class="empty-state"><div class="big">♙</div><b>No friend requests yet</b></div>`;return}
+  box.innerHTML=requests.map(d=>{
+   const r=d.data();
+   return `<div class="result-row">
+    <div class="avatar">${safe((r.fromUsername||"D").charAt(0).toUpperCase())}</div>
+    <div><b>@${safe(r.fromUsername||"Destiny user")}</b><p>Sent you a friend request</p></div>
+    <div class="request-actions">
+     <button class="accept-btn" onclick="acceptFriendRequest('${safe(r.fromUid)}')">Accept</button>
+     <button class="reject-btn" onclick="rejectFriendRequest('${safe(r.fromUid)}')">Reject</button>
+    </div>
+   </div>`;
+  }).join("");
+ }catch(e){box.innerHTML=`<div class="empty-state">Could not load requests: ${safe(e.message)}</div>`}
+};
+
+window.acceptFriendRequest=async fromUid=>{
+ if(!currentUser)return;
+ try{
+  const id=`${currentUser.uid}_${fromUid}`;
+  const r=doc(db,"friendRequests",id),s=await getDoc(r);
+  if(!s.exists()||s.data().status!=="pending"){
+   toast("Request is no longer available.");await loadFriendRequests();return;
+  }
+  const data=s.data();
+  const name=myProfile.username||currentUser.displayName||"Destiny user";
+  const batch=writeBatch(db);
+  batch.update(r,{status:"accepted",updatedAt:serverTimestamp()});
+  batch.set(doc(db,"users",currentUser.uid,"friends",fromUid),{
+   uid:fromUid,username:data.fromUsername||"Destiny user",chatId:id,createdAt:serverTimestamp()
+  });
+  batch.set(doc(db,"users",fromUid,"friends",currentUser.uid),{
+   uid:currentUser.uid,username:name,chatId:id,createdAt:serverTimestamp()
+  });
+  batch.set(doc(db,"chats",id),{participants:[currentUser.uid,fromUid],createdAt:serverTimestamp()});
+  await batch.commit();
+  following.add(fromUid);toast("Friend request accepted!");await loadFriendRequests();
+ }catch(e){toast("Could not accept request: "+e.message)}
+};
+
+window.rejectFriendRequest=async fromUid=>{
+ try{
+  await setDoc(doc(db,"friendRequests",`${currentUser.uid}_${fromUid}`),{
+   status:"rejected",updatedAt:serverTimestamp()
+  },{merge:true});
+  toast("Request rejected.");await loadFriendRequests();
+ }catch(e){toast(e.message)}
+};
+
+window.loadFriendsMessages=async()=>{
+ const box=$("inbox-content");
+ box.innerHTML=`<div class="empty-state">Loading friends...</div>`;
+ try{
+  const snap=await getDocs(collection(db,"users",currentUser.uid,"friends"));
+  if(snap.empty){
+   box.innerHTML=`<div class="empty-state"><div class="big">✉</div><b>No friends yet</b><p>Add a creator to start chatting and calling.</p></div>`;
+   return;
+  }
+  box.innerHTML=snap.docs.map(d=>{
+   const f=d.data();
+   return `<div class="message-row" onclick="openChat('${safe(d.id)}','${safe(f.username||"Destiny friend")}')">
+    <div class="avatar">${safe((f.username||"D").charAt(0).toUpperCase())}</div>
+    <div><b>@${safe(f.username||"Destiny friend")}</b><p>Message or call this friend</p></div>
+   </div>`;
+  }).join("");
+ }catch(e){box.innerHTML=`<div class="empty-state">Could not load friends: ${safe(e.message)}</div>`}
+};
+
+/* PRIVATE CHAT */
+window.openChat=async(uid,username)=>{
+ if(!currentUser)return;
+ try{
+  const f=await getDoc(doc(db,"users",currentUser.uid,"friends",uid));
+  if(!f.exists()){toast("You must be friends before chatting or calling.");return}
+  const chatId=f.data().chatId;
+  if(!chatId){toast("Chat room not found.");return}
+  activeChatUid=uid;activeChatName=username;activeChatId=chatId;
+  showChatModal(`
+   <div class="chat-header">
+    <button class="back-chat" onclick="closeModal()">‹</button>
+    <button class="chat-person" onclick="openPublicProfile('${safe(uid)}',true)">
+     <div class="avatar">${safe((username||"D").charAt(0).toUpperCase())}</div>
+     <span><strong>@${safe(username)}</strong><small>Tap to view profile</small></span>
+    </button>
+   </div>
+   <div class="call-buttons">
+    <button onclick="startCall('${safe(uid)}','${safe(username)}','audio')">☎ Voice call</button>
+    <button class="video-call" onclick="startCall('${safe(uid)}','${safe(username)}','video')">▣ Video call</button>
+   </div>
+   <div id="chat-list" class="chat-box">Loading messages...</div>
+   <div class="chat-compose">
+    <button class="attach" title="Send photo" onclick="document.getElementById('chat-image-file').click()">▧</button>
+    <button class="attach" title="Send video" onclick="document.getElementById('chat-video-file').click()">▣</button>
+    <input id="chat-input" placeholder="Write a message..." maxlength="2000" onkeydown="if(event.key==='Enter')sendChatMessage('${safe(chatId)}')">
+    <button onclick="sendChatMessage('${safe(chatId)}')">Send</button>
+   </div>`);
+  const q=query(collection(db,"chats",chatId,"messages"),orderBy("createdAt","asc"));
+  stopChat=onSnapshot(q,snap=>{
+   const list=$("chat-list");if(!list)return;
+   if(snap.empty){list.innerHTML=`<p class="muted">No messages yet. Say hello!</p>`;return}
+   list.innerHTML=snap.docs.map(d=>{
+    const m=d.data(),mine=m.senderId===currentUser.uid;
+    let content="";
+    if(m.text)content+=`<div>${safe(m.text)}</div>`;
+    if(m.imageUrl)content+=`<img src="${safe(m.imageUrl)}" alt="Shared photo" loading="lazy">`;
+    if(m.videoUrl)content+=`<video src="${safe(m.videoUrl)}" controls playsinline preload="metadata"></video>`;
+    return `<div class="chat-bubble ${mine?"mine":""}"><small>${mine?"You":safe(m.senderUsername||"Friend")}</small>${content}</div>`;
+   }).join("");
+   list.scrollTop=list.scrollHeight;
+  },e=>{
+   const list=$("chat-list");if(list)list.textContent="Could not load messages: "+e.message;
+  });
+ }catch(e){toast("Could not open chat: "+e.message)}
+};
+
+window.sendChatMessage=async chatId=>{
+ if(!currentUser)return;
+ const input=$("chat-input"),message=input.value.trim();
+ if(!message)return;
+ input.disabled=true;
+ try{
+  await addDoc(collection(db,"chats",chatId,"messages"),{
+   senderId:currentUser.uid,
+   senderUsername:myProfile.username||currentUser.displayName||"Destiny user",
+   text:message,createdAt:serverTimestamp()
+  });
+  input.value="";
+ }catch(e){toast("Message could not be sent: "+e.message)}
+ finally{
+  if($("chat-input")){$("chat-input").disabled=false;$("chat-input").focus()}
+ }
+};
+
+window.uploadChatAttachment=async(event,type)=>{
+ const file=event.target.files[0];if(!file)return;
+ if(!currentUser||!activeChatId){toast("Open a chat first.");event.target.value="";return}
+ const isImage=type==="image";
+ if(isImage&&!file.type.startsWith("image/")){toast("Choose an image.");event.target.value="";return}
+ if(!isImage&&!file.type.startsWith("video/")){toast("Choose a video.");event.target.value="";return}
+ const max=isImage?15:100;
+ if(file.size>max*1024*1024){toast("This file is too large. Maximum size is "+max+" MB.");event.target.value="";return}
+ const chatId=activeChatId;
+ toast("Uploading "+type+"...");
+ try{
+  const form=new FormData();
+  form.append("file",file);form.append("upload_preset",UPLOAD_PRESET);
+  const endpoint=isImage?"image":"video";
+  const response=await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${endpoint}/upload`,{method:"POST",body:form});
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.error?.message||"Upload failed.");
+  const message={
+   senderId:currentUser.uid,
+   senderUsername:myProfile.username||currentUser.displayName||"Destiny user",
+   createdAt:serverTimestamp()
+  };
+  if(isImage)message.imageUrl=data.secure_url;
+  else message.videoUrl=data.secure_url;
+  await addDoc(collection(db,"chats",chatId,"messages"),message);
+  toast(isImage?"Photo sent!":"Video sent!");
+ }catch(e){toast("Could not send file: "+e.message)}
+ event.target.value="";
+};
+
+/* PUBLIC PROFILE */
+window.openPublicProfile=async(uid,fromChat=false)=>{
+ if(!uid)return;
+ try{
+  const snap=await getDoc(doc(db,"publicUsers",uid));
+  if(!snap.exists()){toast("Profile not found.");return}
+  const person=snap.data(),username=person.username||"Destiny user";
+  const userPosts=posts.filter(p=>p.uid===uid);
+  if(fromChat)returnToChat={uid,username};
+  else returnToChat=null;
+  showModal(`
+   <div class="public-profile">
+    <button class="close-btn" onclick="closeModal()">×</button>
+    <div class="profile-pic">${safe(username.charAt(0).toUpperCase())}</div>
+    <h2>@${safe(username)}</h2>
+    <p class="muted">Destiny creator</p>
+    <p class="profile-bio">${safe(person.bio||"Welcome to my Destiny profile ✨")}</p>
+    ${fromChat?`<button class="primary-btn" onclick="returnToFriendChat()">Back to chat</button>`:""}
+    <h3 style="margin-top:22px">Videos</h3>
+    <div class="public-posts">
+     ${userPosts.length?userPosts.map(p=>`<video src="${safe(p.videoUrl)}" controls muted playsinline></video>`).join(""):`<p class="muted" style="padding:20px">No videos yet.</p>`}
+    </div>
+   </div>`);
+ }catch(e){toast("Could not open profile: "+e.message)}
+};
+
+window.returnToFriendChat=()=>{
+ if(returnToChat)openChat(returnToChat.uid,returnToChat.username);
+};
+
+/* VOICE AND VIDEO CALLING */
+function listenForIncomingCalls(){
+ if(!currentUser)return;
+ const inboxRef=dbRef(rtdb,`userCalls/${currentUser.uid}`);
+ if(stopIncoming)stopIncoming();
+ stopIncoming=onChildAdded(inboxRef,async snap=>{
+  const callId=snap.key,info=snap.val();
+  if(!info||info.status!=="ringing"||activeCall)return;
+  try{
+   const callSnap=await dbGet(dbRef(rtdb,`calls/${callId}`));
+   if(!callSnap.exists())return;
+   const call=callSnap.val();
+   if(call.status!=="ringing"||call.calleeId!==currentUser.uid)return;
+   showIncomingCall(callId,call);
+  }catch(e){console.log("Incoming call check:",e.message)}
+ });
+}
+
+function showIncomingCall(callId,call){
+ const type=call.type==="video"?"video":"voice";
+ showModal(`
+  <div class="call-screen voice-screen">
+   <h3>Incoming ${type} call</h3>
+   <div class="call-avatar">${safe((call.callerUsername||"D").charAt(0).toUpperCase())}</div>
+   <p class="call-subtitle">From @${safe(call.callerUsername||"Destiny friend")}</p>
+   <div class="call-status">Your friend is calling you...</div>
+   <div class="call-controls">
+    <button class="enabled" onclick="acceptCall('${safe(callId)}')">✓</button>
+    <button class="end-call" onclick="rejectCall('${safe(callId)}')">✕</button>
+   </div>
+   <p class="muted" style="margin-top:20px">Green: accept · Red: reject</p>
+  </div>`);
+}
+
+async function getMedia(type){
+ if(!navigator.mediaDevices?.getUserMedia){
+  throw new Error("Camera and microphone need HTTPS and browser permission.");
+ }
+ return await navigator.mediaDevices.getUserMedia({
+  audio:true,
+  video:type==="video"?{facingMode:"user"}:false
+ });
+}
+
+/* Attach local and remote audio/video to the call screen */
+function attachCallMedia(){
+ if(!localStream)return;
+ const local=$("local-video");
+ if(local){
+  local.srcObject=localStream;
+  local.muted=true;
+  local.playsInline=true;
+  local.play().catch(()=>{});
+ }
+ if(remoteStream){
+  const remoteVideo=$("remote-video");
+  if(remoteVideo){
+   remoteVideo.srcObject=remoteStream;
+   remoteVideo.playsInline=true;
+   remoteVideo.play().catch(()=>{});
+  }
+  const remoteAudio=$("remote-audio");
+  if(remoteAudio){
+   remoteAudio.srcObject=remoteStream;
+   remoteAudio.autoplay=true;
+   remoteAudio.play().catch(()=>{});
+  }
+ }
+}
+
+function createPeer(callId,remoteUid){
+ peer=new RTCPeerConnection(rtcConfig);
+ remoteStream=new MediaStream();
+
+ peer.ontrack=e=>{
+  if(e.streams&&e.streams[0]){
+   e.streams[0].getTracks().forEach(track=>{
+    if(!remoteStream.getTracks().some(t=>t.id===track.id)){
+     remoteStream.addTrack(track);
+    }
+   });
+  }else if(!remoteStream.getTracks().some(t=>t.id===e.track.id)){
+   remoteStream.addTrack(e.track);
+  }
+  attachCallMedia();
+ };
+
+ peer.onicecandidate=e=>{
+  if(e.candidate&&activeCall){
+   const path=`calls/${callId}/candidates/${currentUser.uid}`;
+   dbPush(dbRef(rtdb,path),e.candidate.toJSON()).catch(err=>console.log(err));
+  }
+ };
+
+ peer.onconnectionstatechange=()=>{
+  if(!peer)return;
+  if(peer.connectionState==="connected"){
+   const s=$("call-status");if(s)s.textContent="Connected";
+  }
+  if(["failed","disconnected"].includes(peer.connectionState)){
+   const s=$("call-status");
+   if(s)s.textContent="Connection problem. Check your network.";
+  }
+ };
+
+ listenForRemoteCandidates(callId,remoteUid);
+}
+
+function listenForRemoteCandidates(callId,remoteUid){
+ if(remoteCandidateListener)remoteCandidateListener();
+ const path=`calls/${callId}/candidates/${remoteUid}`;
+ remoteCandidateListener=onChildAdded(dbRef(rtdb,path),async snap=>{
+  if(!snap.val()||!peer)return;
+  try{
+   const candidate=new RTCIceCandidate(snap.val());
+   if(peer.remoteDescription)await peer.addIceCandidate(candidate);
+   else pendingCandidates.push(candidate);
+  }catch(e){console.log("ICE candidate:",e.message)}
+ });
+}
+
+async function addQueuedCandidates(){
+ if(!peer||!peer.remoteDescription)return;
+ for(const c of pendingCandidates){
+  try{await peer.addIceCandidate(c)}catch(e){console.log(e.message)}
+ }
+ pendingCandidates=[];
+}
+
+function callScreenHTML(name,type){
+ const video=type==="video";
+ if(video){
+  return `<div class="call-screen">
+   <div class="call-videos">
+    <video id="remote-video" autoplay playsinline></video>
+    <video id="local-video" autoplay muted playsinline></video>
+   </div>
+   <div class="call-top"><h3>Video call with @${safe(name)}</h3></div>
+   <audio id="remote-audio" autoplay></audio>
+   <div id="call-status" class="call-status">Connecting...</div>
+   <div class="call-controls">
+    <button id="mute-button" onclick="toggleMute()">🎙</button>
+    <button id="camera-button" onclick="toggleCamera()">▣</button>
+    <button class="end-call" onclick="endCall(true)">✕</button>
+   </div>
+  </div>`;
+ }
+ return `<div class="call-screen voice-screen">
+  <h3>Voice call with @${safe(name)}</h3>
+  <div class="call-avatar">${safe((name||"D").charAt(0).toUpperCase())}</div>
+  <p class="call-subtitle">Destiny voice call</p>
+  <audio id="remote-audio" autoplay></audio>
+  <div id="call-status" class="call-status">Connecting...</div>
+  <div class="call-controls">
+   <button id="mute-button" onclick="toggleMute()">🎙</button>
+   <button class="end-call" onclick="endCall(true)">✕</button>
+  </div>
+ </div>`;
+}
+
+window.startCall=async(uid,username,type)=>{
+ if(!currentUser){showAuth();toast("Log in to make a call.");return}
+ if(activeCall){toast("You are already in a call.");return}
+ try{
+  const f=await getDoc(doc(db,"users",currentUser.uid,"friends",uid));
+  if(!f.exists())throw new Error("You can only call accepted friends.");
+
+  localStream=await getMedia(type);
+  const callRef=dbPush(dbRef(rtdb,"calls"));
+  const callId=callRef.key;
+
+  activeCall={id:callId,remoteUid:uid,remoteName:username,type,role:"caller"};
+  createPeer(callId,uid);
+  localStream.getTracks().forEach(t=>peer.addTrack(t,localStream));
+
+  showCallModal(callScreenHTML(username,type));
+  attachCallMedia();
+
+  const offer=await peer.createOffer();
+  await peer.setLocalDescription(offer);
+
+  const participants={[currentUser.uid]:true,[uid]:true};
+  await dbSet(callRef,{
+   callerId:currentUser.uid,
+   calleeId:uid,
+   callerUsername:myProfile.username||currentUser.displayName||"Destiny user",
+   type,status:"ringing",participants,
+   offer:{type:offer.type,sdp:offer.sdp},
+   createdAt:Date.now()
+  });
+
+  await dbSet(dbRef(rtdb,`userCalls/${uid}/${callId}`),{
+   callerId:currentUser.uid,calleeId:uid,type,status:"ringing",createdAt:Date.now()
+  });
+
+  stopCall=onValue(dbRef(rtdb,`calls/${callId}`),async snap=>{
+   const c=snap.val();
+   if(!c||!activeCall)return;
+
+   if(c.status==="rejected"){
+    toast("Call was rejected.");await endCall(false);return;
+   }
+   if(c.status==="ended"){
+    toast("Call ended.");await endCall(false);return;
+   }
+
+   /* FIX: remoteDescription is the correct WebRTC property */
+   if(c.answer&&peer&&!peer.remoteDescription&&peer.signalingState!=="stable"){
+    try{
+     await peer.setRemoteDescription(new RTCSessionDescription(c.answer));
+     await addQueuedCandidates();
+     attachCallMedia();
+    }catch(e){console.log("Answer error:",e.message)}
+   }
+  });
+
+  toast("Calling "+username+"...");
+ }catch(e){
+  toast("Could not start call: "+e.message);
+  await cleanupCall();
+ }
+};
+
+window.acceptCall=async callId=>{
+ if(!currentUser||activeCall)return;
+ try{
+  const snap=await dbGet(dbRef(rtdb,`calls/${callId}`));
+  if(!snap.exists())throw new Error("This call is no longer available.");
+  const call=snap.val();
+  if(call.status!=="ringing"||call.calleeId!==currentUser.uid){
+   throw new Error("This call has ended.");
+  }
+
+  localStream=await getMedia(call.type);
+  activeCall={
+   id:callId,
+   remoteUid:call.callerId,
+   remoteName:call.callerUsername||"Destiny friend",
+   type:call.type,
+   role:"callee"
+  };
+
+  createPeer(callId,call.callerId);
+  localStream.getTracks().forEach(t=>peer.addTrack(t,localStream));
+
+  await peer.setRemoteDescription(new RTCSessionDescription(call.offer));
+  await addQueuedCandidates();
+
+  const answer=await peer.createAnswer();
+  await peer.setLocalDescription(answer);
+
+  await dbUpdate(dbRef(rtdb,`calls/${callId}`),{
+   answer:{type:answer.type,sdp:answer.sdp},
+   status:"accepted"
+  });
+
+  await dbUpdate(dbRef(rtdb,`userCalls/${currentUser.uid}/${callId}`),{
+   status:"accepted"
+  });
+
+  showCallModal(callScreenHTML(activeCall.remoteName,call.type));
+  attachCallMedia();
+
+  stopCall=onValue(dbRef(rtdb,`calls/${callId}/status`),async s=>{
+   if(s.val()==="ended"||s.val()==="rejected"){
+    toast("Call ended.");await endCall(false);
+   }
+  });
+
+ }catch(e){
+  toast("Could not answer call: "+e.message);
+  await cleanupCall();
+ }
+};
+
+window.rejectCall=async callId=>{
+ try{
+  await dbUpdate(dbRef(rtdb,`calls/${callId}`),{status:"rejected"});
+  await dbRemove(dbRef(rtdb,`userCalls/${currentUser.uid}/${callId}`));
+ }catch(e){toast(e.message)}
+ closeModal();
+};
+
+window.toggleMute=()=>{
+ if(!localStream)return;
+ const tracks=localStream.getAudioTracks();
+ if(!tracks.length)return;
+ const enabled=!tracks[0].enabled;
+ tracks.forEach(t=>t.enabled=enabled);
+ const b=$("mute-button");
+ if(b){
+  b.textContent=enabled?"🎙":"🔇";
+  b.classList.toggle("enabled",!enabled);
+ }
+};
+
+window.toggleCamera=()=>{
+ if(!localStream)return;
+ const tracks=localStream.getVideoTracks();
+ if(!tracks.length)return;
+ const enabled=!tracks[0].enabled;
+ tracks.forEach(t=>t.enabled=enabled);
+ const b=$("camera-button");
+ if(b){
+  b.textContent=enabled?"▣":"🚫";
+  b.classList.toggle("enabled",!enabled);
+ }
+};
+
+async function cleanupCall(){
+ if(stopCall){stopCall();stopCall=null}
+ if(remoteCandidateListener){remoteCandidateListener();remoteCandidateListener=null}
+ if(peer){
+  peer.ontrack=null;
+  peer.onicecandidate=null;
+  peer.close();
+  peer=null;
+ }
+ if(localStream){
+  localStream.getTracks().forEach(t=>t.stop());
+  localStream=null;
+ }
+ if(remoteStream){
+  remoteStream.getTracks().forEach(t=>t.stop());
+  remoteStream=null;
+ }
+ pendingCandidates=[];
+ activeCall=null;
+}
+
+window.endCall=async notifyOther=>{
+ const call=activeCall;
+ if(call&&notifyOther){
+  try{
+   await dbUpdate(dbRef(rtdb,`calls/${call.id}`),{status:"ended"});
+   await dbRemove(dbRef(rtdb,`userCalls/${call.remoteUid}/${call.id}`));
+   await dbRemove(dbRef(rtdb,`userCalls/${currentUser.uid}/${call.id}`));
+  }catch(e){console.log("End call update:",e.message)}
+ }
+ await cleanupCall();
+ closeModal();
+ toast("Call ended.");
+};
+
+/* DISCOVER AND PROFILE */
+function renderDiscover(){
+ $("discover-feed").innerHTML=posts.map(p=>`
+  <div class="explore-tile" onclick="openPage('home')">
+   <video src="${safe(p.videoUrl)}" muted playsinline></video>
+   <div class="tile-caption">@${safe(p.username)}</div>
+  </div>`).join("");
+}
+
+function renderMyVideos(){
+ $("post-count").textContent=posts.filter(p=>currentUser&&p.uid===currentUser.uid).length;
+ const mine=posts.filter(p=>currentUser&&p.uid===currentUser.uid);
+ const box=$("profile-content");
+ if(!box)return;
+ if(!mine.length){
+  box.className="empty-state";
+  box.innerHTML=`<div class="big">▣</div><b>Your videos will appear here</b><p>Upload your first video and start sharing.</p><br><button class="primary-btn" onclick="askCaption()">Upload video</button>`;
+  return;
+ }
+ box.className="explore-grid";
+ box.innerHTML=mine.map(p=>`
+  <div class="explore-tile">
+   <video src="${safe(p.videoUrl)}" controls muted playsinline></video>
+   <div class="tile-caption">${safe(p.caption)}</div>
+  </div>`).join("");
+}
+
+window.profileTab=(tab,button)=>{
+ document.querySelectorAll(".profile-tabs button").forEach(b=>b.classList.remove("active"));
+ button.classList.add("active");
+ if(tab==="liked"){
+  const mine=posts.filter(p=>myLiked.has(p.id));
+  $("profile-content").className=mine.length?"explore-grid":"empty-state";
+  $("profile-content").innerHTML=mine.length?
+   mine.map(p=>`<div class="explore-tile"><video src="${safe(p.videoUrl)}" muted controls></video></div>`).join(""):
+   `<div class="big">♥</div><b>Your liked videos will appear here</b>`;
+ }else renderMyVideos();
+};
+
+window.editProfile=()=>{
+ if(!currentUser){showAuth();return}
+ showModal(`<h3>Edit profile</h3>
+ <label>Username</label><input id="edit-username" value="${safe(myProfile.username||"")}">
+ <label>Bio</label><textarea id="edit-bio">${safe(myProfile.bio||"")}</textarea>
+ <button class="primary-btn" onclick="saveProfile()">Save changes</button>`);
+};
+
+window.saveProfile=async()=>{
+ const username=$("edit-username").value.trim().replace(/^@/,"");
+ const bio=$("edit-bio").value.trim();
+ if(!username){toast("Enter a username.");return}
+ try{
+  await setDoc(doc(db,"publicUsers",currentUser.uid),{
+   uid:currentUser.uid,username,bio,updatedAt:serverTimestamp()
+  },{merge:true});
+  await setDoc(doc(db,"users",currentUser.uid),{
+   uid:currentUser.uid,username,bio,updatedAt:serverTimestamp()
+  },{merge:true});
+  await updateAuthProfile(currentUser,{displayName:username});
+  myProfile={...myProfile,username,bio};
+  $("profile-name").textContent=username;
+  $("profile-handle").textContent="@"+username;
+  $("profile-avatar").textContent=username.charAt(0).toUpperCase();
+  $("profile-bio").textContent=bio;
+  closeModal();toast("Profile updated!");
+ }catch(e){toast(e.message)}
+};
+
+window.profileTab("videos",document.querySelector(".profile-tabs button"));
+</script>
+</body>
+</html>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
