@@ -1,0 +1,13 @@
+{
+  "background_color": "#000000",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Destiny",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Destiny",
+  "start_url": "/",
+  "theme_color": "#080808",
+  "id": "destiny-app/",
+  "description": "Destiny is a mobile video sharing and social networking app."
+}
